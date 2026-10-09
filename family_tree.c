@@ -9,7 +9,7 @@ typedef struct Person {
     struct Person *mother;
 } Person;
 
-Person* create_person(const char *name, int age) {
+Person *create_person(const char *name, int age) {
     Person *person = malloc(sizeof(Person));
 
     if (person == NULL) {
@@ -66,6 +66,24 @@ void print_family_relationships(Person *person, const char *relationship) {
     }
 }
 
+void free_family_tree(
+    Person *paternal_grandfather,
+    Person *paternal_grandmother,
+    Person *maternal_grandfather,
+    Person *maternal_grandmother,
+    Person *father,
+    Person *mother,
+    Person *myself
+) {
+    free(paternal_grandfather);
+    free(paternal_grandmother);
+    free(maternal_grandfather);
+    free(maternal_grandmother);
+    free(father);
+    free(mother);
+    free(myself);
+}
+
 int main(void) {
     Person *paternal_grandfather = create_person("", 0);
     Person *paternal_grandmother = create_person("", 0);
@@ -82,7 +100,19 @@ int main(void) {
         father == NULL ||
         mother == NULL ||
         myself == NULL) {
+
         printf("Could not create all family members.\n");
+
+        free_family_tree(
+            paternal_grandfather,
+            paternal_grandmother,
+            maternal_grandfather,
+            maternal_grandmother,
+            father,
+            mother,
+            myself
+        );
+
         return 1;
     }
 
@@ -107,6 +137,18 @@ int main(void) {
     print_family_relationships(father, "Father");
     print_family_relationships(mother, "Mother");
     print_family_relationships(myself, "Myself");
+
+    free_family_tree(
+        paternal_grandfather,
+        paternal_grandmother,
+        maternal_grandfather,
+        maternal_grandmother,
+        father,
+        mother,
+        myself
+    );
+
+    printf("\nMemory released successfully.\n");
 
     return 0;
 }
