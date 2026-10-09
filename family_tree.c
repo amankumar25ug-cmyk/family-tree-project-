@@ -27,6 +27,49 @@ Person* create_person(const char *name, int age) {
     return person;
 }
 
+void read_person_info(Person *person, const char *relationship) {
+    printf("Enter name of %s: ", relationship);
+
+    if (scanf(" %49[^\n]", person->name) != 1) {
+        printf("Invalid name input.\n");
+        return;
+    }
+
+    printf("Enter age of %s: ", relationship);
+
+    if (scanf("%d", &person->age) != 1) {
+        printf("Invalid age input.\n");
+        return;
+    }
+}
+
 int main(void) {
+    Person *paternal_grandfather = create_person("", 0);
+    Person *paternal_grandmother = create_person("", 0);
+    Person *maternal_grandfather = create_person("", 0);
+    Person *maternal_grandmother = create_person("", 0);
+    Person *father = create_person("", 0);
+    Person *mother = create_person("", 0);
+    Person *myself = create_person("", 0);
+
+    if (paternal_grandfather == NULL ||
+        paternal_grandmother == NULL ||
+        maternal_grandfather == NULL ||
+        maternal_grandmother == NULL ||
+        father == NULL ||
+        mother == NULL ||
+        myself == NULL) {
+        printf("Could not create all family members.\n");
+        return 1;
+    }
+
+    read_person_info(paternal_grandfather, "Paternal Grandfather");
+    read_person_info(paternal_grandmother, "Paternal Grandmother");
+    read_person_info(maternal_grandfather, "Maternal Grandfather");
+    read_person_info(maternal_grandmother, "Maternal Grandmother");
+    read_person_info(father, "Father");
+    read_person_info(mother, "Mother");
+    read_person_info(myself, "Myself");
+
     return 0;
 }
