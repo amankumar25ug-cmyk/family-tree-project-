@@ -43,6 +43,29 @@ void read_person_info(Person *person, const char *relationship) {
     }
 }
 
+void link_parents(Person *child, Person *father, Person *mother) {
+    child->father = father;
+    child->mother = mother;
+}
+
+void print_family_relationships(Person *person, const char *relationship) {
+    printf("\n%s\n", relationship);
+    printf("Name: %s\n", person->name);
+    printf("Age: %d\n", person->age);
+
+    if (person->father != NULL) {
+        printf("Father: %s\n", person->father->name);
+    } else {
+        printf("Father: Not recorded\n");
+    }
+
+    if (person->mother != NULL) {
+        printf("Mother: %s\n", person->mother->name);
+    } else {
+        printf("Mother: Not recorded\n");
+    }
+}
+
 int main(void) {
     Person *paternal_grandfather = create_person("", 0);
     Person *paternal_grandmother = create_person("", 0);
@@ -70,6 +93,20 @@ int main(void) {
     read_person_info(father, "Father");
     read_person_info(mother, "Mother");
     read_person_info(myself, "Myself");
+
+    link_parents(father, paternal_grandfather, paternal_grandmother);
+    link_parents(mother, maternal_grandfather, maternal_grandmother);
+    link_parents(myself, father, mother);
+
+    printf("\n========== FAMILY TREE ==========\n");
+
+    print_family_relationships(paternal_grandfather, "Paternal Grandfather");
+    print_family_relationships(paternal_grandmother, "Paternal Grandmother");
+    print_family_relationships(maternal_grandfather, "Maternal Grandfather");
+    print_family_relationships(maternal_grandmother, "Maternal Grandmother");
+    print_family_relationships(father, "Father");
+    print_family_relationships(mother, "Mother");
+    print_family_relationships(myself, "Myself");
 
     return 0;
 }
